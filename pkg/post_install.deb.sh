@@ -35,13 +35,13 @@ case "$1" in
 		if [ ! -d /var/log/pywebhooks ]; then
             mkdir /var/log/pywebhooks
             chown -R pywebhooks:adm /var/log/pywebhooks/
-            chmod 0750 /var/log/pywebhooks/
+            chmod 0755 /var/log/pywebhooks/
         fi
 
         if [ ! -d /var/lib/pywebhooks ]; then
             mkdir /var/lib/pywebhooks
             chown pywebhooks:pywebhooks -R /var/lib/pywebhooks/ /etc/pywebhooks
-            chmod -R 0744 /etc/pywebhooks/
+            chmod -R 0755 /etc/pywebhooks/
         fi
     ;;
 
