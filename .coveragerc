@@ -1,0 +1,2 @@
+[report]
+omit = pkg/*,setup.py,*egg*,.tox/*,meniscus/tests/*

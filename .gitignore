@@ -1,0 +1,15 @@
+build/
+dist/
+.coverage
+*.pyc
+.idea
+*.iml
+pywebhooks.egg-info
+.tox
+*.DS_Store*
+nosetests.xml
+pywebhooks/coverage.xml
+cache-store
+cache-config
+*~
+.python-version
