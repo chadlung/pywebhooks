@@ -9,6 +9,7 @@ from flask.ext.httpauth import HTTPBasicAuth
 from passlib.apps import custom_app_context as pwd_context
 
 from pywebhooks.models import user
+from pywebhooks.models.user import db
 from pywebhooks import CONFIG, CELERY
 from pywebhooks.tasks import fetch
 
@@ -25,7 +26,6 @@ def create_app():
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] =\
         CONFIG.sqlalchemy.commit_on_teardown
 
-    from pywebhooks.models.user import db
     db.init_app(app)
 
     celery_proc = Process(target=CELERY.worker_main, args=[['', '--beat']])
@@ -61,10 +61,10 @@ def new_user():
         abort(400) # existing user
     user = User(username=username)
     user.hash_password(password)
-    DB.session.add(user, email)
-    DB.session.commit()
-    return jsonify({'username': user.username}), 201, \
-           {'Location': url_for('get_user', id=user.id, _external=True)}
+    db.session.add(user, email)
+    db.session.commit()
+    return jsonify({'username': user.username}), 201,\
+        {'Location': url_for('get_user', id=user.id, _external=True)}
 
 
 @flask_app.route('/api/users/<int:id>')
