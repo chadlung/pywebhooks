@@ -78,7 +78,7 @@ def get_user(id):
 @flask_app.route('/api/token')
 @auth.login_required
 def get_auth_token():
-    token = g.user.generate_auth_token(600)
+    token = g.user.generate_auth_token(CONFIG.sqlalchemy.auth_token_expiration)
     return jsonify({'token': token.decode('ascii'), 'duration': 600})
 
 
