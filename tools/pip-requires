@@ -1,4 +1,11 @@
 uwsgi
-falcon
+flask
+flask-httpauth
+flask-sqlalchemy
 simplejson
-pynsive
+celery
+librabbitmq
+requests
+SQLAlchemy
+itsdangerous
+passlib
