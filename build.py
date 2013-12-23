@@ -1,15 +1,19 @@
 import os
 import os.path as path
+import stat
 import sys
 import shutil
 import tempfile
 import subprocess
 import urllib2
 import tarfile
+import logging
 import zipfile
 
+from pip.download import unpack_http_url
 from pip.index import PackageFinder
-from pip.req import InstallRequirement
+from pip.req import InstallRequirement, RequirementSet
+from pip.locations import build_prefix, src_prefix
 
 
 PYTHONPATH = 'PYTHONPATH'
@@ -100,10 +104,14 @@ def unpack(name, bctx, stage_hooks, filename, dl_target):
     if dl_target.endswith('.tar.gz') or dl_target.endswith('.tgz'):
         archive = tarfile.open(dl_target, mode='r|gz')
         build_location = path.join(
-            bctx.build.root, filename.rstrip('.tar.gz'))
+            bctx.build.root, filename[:-7])
+    elif dl_target.endswith('.tar.bz2'):
+        archive = tarfile.open(dl_target, mode='r|bz2')
+        build_location = path.join(
+            bctx.build.root, filename[:-8])
     elif dl_target.endswith('.zip'):
         archive = zipfile.ZipFile(dl_target, mode='r')
-        build_location = path.join(bctx.build.root, filename.rstrip('.zip'))
+        build_location = path.join(bctx.build.root, filename[:-4])
     else:
         print('Unknown archive format: {}'.format(dl_target))
         raise Exception()
