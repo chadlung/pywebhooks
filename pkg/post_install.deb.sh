@@ -30,7 +30,8 @@ case "$1" in
 		    adduser --quiet --system --home /var/lib/pywebhooks --ingroup pywebhooks --no-create-home --shell /bin/false pywebhooks
 		fi
 
-		chmod 0755 /etc/init.d/pywebhooks
+		#chmod 0755 /etc/init.d/pywebhooks
+		chown root:root /etc/init/pywebhooks.conf
 
 		if [ ! -d /var/log/pywebhooks ]; then
             mkdir /var/log/pywebhooks
