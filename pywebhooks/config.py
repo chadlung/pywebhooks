@@ -14,12 +14,19 @@ _CONFIG_FILE = './pkg/layout/etc/pywebhooks/pywebhooks.conf'
 _CFG_DEFAULTS = {
     'celery': {
         'broker_url': 'librabbitmq://guest@localhost//',
-        'celeryd_concurrency': 2
+        'celeryd_concurrency': 2,
+        'disable_rate_limits': True
     },
     'logging': {
         'console': True,
         'logfile': None,
         'verbosity': 'DEBUG'
+    },
+    'sqlalchemy': {
+        'secret_key': 'thisCanbeWhatever',
+        'database_uri': 'sqlite:///db.sqlite',
+        'commit_on_teardown': True,
+        'auth_token_expiration': 600
     }
 }
 
