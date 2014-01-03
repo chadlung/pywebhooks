@@ -8,7 +8,7 @@ from flask.ext.httpauth import HTTPBasicAuth
 
 from passlib.apps import custom_app_context as pwd_context
 
-from pywebhooks.models import user
+from pywebhooks.models.user import User
 from pywebhooks.models.user import db
 from pywebhooks import CONFIG, CELERY
 from pywebhooks.tasks import fetch
@@ -20,6 +20,7 @@ _LOG = logging.getLogger(__name__)
 def create_app():
     _LOG.info('PyWebHooks Server Starting')
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
     app.config['SQLALCHEMY_DATABASE_URI'] = \
         CONFIG.sqlalchemy.database_uri
     app.config['SECRET_KEY'] = CONFIG.sqlalchemy.secret_key
@@ -27,6 +28,8 @@ def create_app():
         CONFIG.sqlalchemy.commit_on_teardown
 
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
 
     celery_proc = Process(target=CELERY.worker_main, args=[['', '--beat']])
     celery_proc.start()
@@ -59,9 +62,9 @@ def new_user():
         abort(400) # missing arguments
     if User.query.filter_by(username=username).first() is not None:
         abort(400) # existing user
-    user = User(username=username)
+    user = User(username=username, email=email)
     user.hash_password(password)
-    db.session.add(user, email)
+    db.session.add(user)
     db.session.commit()
     return jsonify({'username': user.username}), 201,\
         {'Location': url_for('get_user', id=user.id, _external=True)}
