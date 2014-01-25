@@ -53,7 +53,7 @@ CONF.register_opts(logging_opts, opt_logging_group)
 CONF.register_group(opt_sqlalchemy_group)
 CONF.register_opts(sqlalchemy_opts, opt_sqlalchemy_group)
 
-CONF(default_config_files=['./pkg/layout/etc/pywebhooks/pywebhooks.conf'])
+CONF(default_config_files=['/etc/pywebhooks/pywebhooks.conf'])
 
 log.configure_logging(CONF)
 

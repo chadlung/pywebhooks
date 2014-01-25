@@ -1,6 +1,7 @@
+from __future__ import print_function
+
 from pywebhooks.util.request import http_request
 from pywebhooks import CELERY
-from __future__ import print_function
 
 
 # This is just a temporary sanity check
