@@ -24,4 +24,4 @@ class User(db.Model):
 
     def generate_auth_token(self, expiration=600):
         s = Serializer(CONF.sqlalchemy.secret_key, expires_in=expiration)
-        return s.dumps({ 'id': self.id })
+        return s.dumps({'id': self.id})

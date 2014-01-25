@@ -94,6 +94,7 @@ def test():
     fetch.request_version.apply_async(kwargs={'msg': 'hello world'})
     return 'Test initiated'
 
+
 @flask_app.route('/')
 def get_version():
     return jsonify({'v1': 'current'})
