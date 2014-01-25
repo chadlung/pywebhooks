@@ -241,7 +241,7 @@ def build(requirements_file, hooks, project_name, version):
 hooks = {
 }
 
-requirements_file = 'tools/pip-requires'
+requirements_file = 'requirements.txt'
 
 if len(sys.argv) != 2:
     print('usage: build.py <project-name>')
