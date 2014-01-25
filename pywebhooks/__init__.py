@@ -22,7 +22,7 @@ opt_logging_group = cfg.OptGroup(name='logging',
 logging_opts = [
     cfg.BoolOpt('console', default=True,
                 help='Whether to output to the console'),
-    cfg.StrOpt('logfile', default='/var/log/pywebhooks/pywebhooks.log',
+    cfg.StrOpt('logfile', default='pywebhooks.log',
                help='Location of the log file'),
     cfg.StrOpt('verbosity', default="DEBUG",
                help='Log verbosity setting')
@@ -53,7 +53,7 @@ CONF.register_opts(logging_opts, opt_logging_group)
 CONF.register_group(opt_sqlalchemy_group)
 CONF.register_opts(sqlalchemy_opts, opt_sqlalchemy_group)
 
-CONF(config_files=['./pkg/layout/etc/pywebhooks/pywebhooks.conf'])
+CONF(default_config_files=['./pkg/layout/etc/pywebhooks/pywebhooks.conf'])
 
 log.configure_logging(CONF)
 

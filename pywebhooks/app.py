@@ -10,8 +10,9 @@ from passlib.apps import custom_app_context as pwd_context
 
 from pywebhooks.models.user import User
 from pywebhooks.models.user import db
-from pywebhooks import CONFIG, CELERY
+from pywebhooks import CELERY
 from pywebhooks.tasks import fetch
+from pywebhooks import CONF
 
 
 _LOG = logging.getLogger(__name__)
@@ -22,10 +23,10 @@ def create_app():
     app = Flask(__name__)
     app.url_map.strict_slashes = False
     app.config['SQLALCHEMY_DATABASE_URI'] = \
-        CONFIG.sqlalchemy.database_uri
-    app.config['SECRET_KEY'] = CONFIG.sqlalchemy.secret_key
+        CONF.sqlalchemy.database_uri
+    app.config['SECRET_KEY'] = CONF.sqlalchemy.secret_key
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] =\
-        CONFIG.sqlalchemy.commit_on_teardown
+        CONF.sqlalchemy.commit_on_teardown
 
     db.init_app(app)
     with app.app_context():
@@ -81,7 +82,7 @@ def get_user(id):
 @flask_app.route('/api/token')
 @auth.login_required
 def get_auth_token():
-    token = g.user.generate_auth_token(CONFIG.sqlalchemy.auth_token_expiration)
+    token = g.user.generate_auth_token(CONF.sqlalchemy.auth_token_expiration)
     return jsonify({'token': token.decode('ascii'), 'duration': 600})
 
 
