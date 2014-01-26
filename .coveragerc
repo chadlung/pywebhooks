@@ -1,2 +1,3 @@
 [report]
-omit = pkg/*,setup.py,*egg*,.tox/*,meniscus/tests/*
+include = pywebhooks/*
+omit = pkg/*,setup.py,*egg*,.tox/*,pywebhooks/tests/*,build.py

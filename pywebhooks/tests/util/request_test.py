@@ -1,11 +1,8 @@
-from pywebhooks.util.request import http_request
-from pywebhooks.util.request import HTTP_VERBS
+from pywebhooks.util.request import http_request, HTTP_VERBS
 
-from mock import MagicMock
 from mock import patch
 
-from httpretty import HTTPretty
-from httpretty import httprettified
+from httpretty import HTTPretty, httprettified
 
 import requests
 import unittest
@@ -20,10 +17,8 @@ def suite():
 class WhenTestingUtilsRequest(unittest.TestCase):
 
     def setUp(self):
-        self.requests = MagicMock()
         self.url = 'http://localhost:8080/somewhere'
         self.json_payload = u'{}'
-
 
     @httprettified
     def test_should_raise_value_error(self):

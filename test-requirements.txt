@@ -1,6 +1,7 @@
 mock
 nose
 nosexcover
+coverage
 testtools
 tox
 httpretty
