@@ -22,12 +22,12 @@ with open('README.rst', 'r') as f:
     readme = f.read()
 
 setup(
-    name='viperpy',
+    name='pywebhooks',
     url='https://github.com/chadlung/pywenhooks',
     keywords=['WebHooks'],
     long_description=readme,
     version=read('VERSION')[0],
-    description='Python WebHooks',
+    description='WebHooks Service',
     author='Chad Lung',
     author_email='chad.lung@gmail.com',
     tests_require=read('./test-requirements.txt'),
@@ -35,5 +35,14 @@ setup(
     test_suite='nose.collector',
     zip_safe=False,
     include_package_data=True,
+    classifiers=[
+        'Programming Language :: Python :: 3.4',
+        'Development Status :: 3 - Alpha',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: POSIX :: Linux'
+    ],
     packages=find_packages(exclude=['ez_setup'])
 )

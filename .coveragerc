@@ -1,3 +1,4 @@
-[report]
-include = pywebhooks/*
-omit = pkg/*,setup.py,*egg*,.tox/*,pywebhooks/tests/*,build.py
+[run]
+branch = True
+source = pywebhooks
+omit = tests/*

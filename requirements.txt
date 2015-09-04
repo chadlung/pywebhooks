@@ -1,0 +1,7 @@
+celery
+flask
+flask-restful
+redis
+requests
+rethinkdb
+werkzeug
