@@ -21,15 +21,16 @@ PyWebhooks has been tested with Python 3.4, prior Python 3.x versions have not
 been tested and Python 2.x support is not planned.
 
 **TODOs:**
-* Add Logging
-* Change how config works
-* Add more unit tests
-* ... probably more
+# Add Logging
+# Change how config works
+# Add more unit tests
+# ... probably more
 
 Once you have Redis and RethinkDB setup you can initialize the database and
 admin accounts by running the following:
 
 ::
+
     $ python app.py --initdb
 
 **Response:**
@@ -259,6 +260,7 @@ You can only look-up your own account record.
 This is a paginated call with ``start`` and ``limit`` params in the querystring.
 
 **REQUIRED** ``start`` is where in the records you want to start listing (0..n)
+
 **REQUIRED** ``limit`` is how many records to return
 
 In the example below I started at record #0 and asked for up to 10 records to return.
@@ -617,6 +619,7 @@ Lists all the calling username's registered webhooks.
 This is a paginated call with ``start`` and ``limit`` params in the querystring.
 
 **REQUIRED** ``start`` is where in the records you want to start listing (0..n)
+
 **REQUIRED** ``limit`` is how many records to return
 
 ::
@@ -660,6 +663,7 @@ Lists all registered webhooks.
 This is a paginated call with ``start`` and ``limit`` params in the querystring.
 
 **REQUIRED** ``start`` is where in the records you want to start listing (0..n)
+
 **REQUIRED** ``limit`` is how many records to return
 
 ::
@@ -788,6 +792,7 @@ Lists all the calling username's subscription records.
 This is a paginated call with ``start`` and ``limit`` params in the querystring.
 
 **REQUIRED** ``start`` is where in the records you want to start listing (0..n)
+
 **REQUIRED** ``limit`` is how many records to return
 
 ::
@@ -824,6 +829,7 @@ Lists all subscriptions.
 This is a paginated call with ``start`` and ``limit`` params in the querystring.
 
 **REQUIRED** ``start`` is where in the records you want to start listing (0..n)
+
 **REQUIRED** ``limit`` is how many records to return
 
 ::
@@ -935,6 +941,7 @@ Lists all triggered records.
 This is a paginated call with ``start`` and ``limit`` params in the querystring.
 
 **REQUIRED** ``start`` is where in the records you want to start listing (0..n)
+
 **REQUIRED** ``limit`` is how many records to return
 
 ::
