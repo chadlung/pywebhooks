@@ -21,10 +21,10 @@ PyWebhooks has been tested with Python 3.4, prior Python 3.x versions have not
 been tested and Python 2.x support is not planned.
 
 **TODOs:**
-# Add Logging
-# Change how config works
-# Add more unit tests
-# ... probably more
+1. Add Logging
+2. Change how config works
+3. Add more unit tests
+4. ... probably more
 
 Once you have Redis and RethinkDB setup you can initialize the database and
 admin accounts by running the following:
