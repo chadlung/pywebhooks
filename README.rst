@@ -925,7 +925,9 @@ Triggered Actions
 ^^^^^^^^^^^^^^^^^
 
 There are two actions that can be done:
+
 1. Trigger a webhook
+
 2. List all the triggered webhooks
 
 **Trigger a webhook:**
