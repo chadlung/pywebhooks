@@ -162,8 +162,9 @@ A full Python 3.4 endpoint example server code (for testing) can be a simple as:
     if __name__ == '__main__':
         app.run(debug=True, port=9090)
 
+
 You can save that code off into it's own project if you want just make sure to
- install Flask.
+install Flask.
 
 Next, start one or more celery workers from the project root:
 
