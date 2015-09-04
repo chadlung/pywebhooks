@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>PyWebhooks by chadlung</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>PyWebhooks</h1>
+        <p>PyWebhooks - A Webhooks Service</p>
+        <p class="view"><a href="https://github.com/chadlung/pywebhooks">View the Project on GitHub <small>chadlung/pywebhooks</small></a></p>
+        <ul>
+          <li><a href="https://github.com/chadlung/pywebhooks/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/chadlung/pywebhooks/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/chadlung/pywebhooks">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a id="pywebhooksio" class="anchor" href="#pywebhooksio" aria-hidden="true"><span class="octicon octicon-link"></span></a>PyWebhooks.io</h2>
+
+<p><em>A simple webhooks service, minimal features, minimal security, proof of concept</em></p>
+
+<p><a href="https://travis-ci.org/chadlung/pywebhooks"><img src="https://travis-ci.org/chadlung/pywebhooks.svg?branch=master" alt="Build Status"></a></p>
+
+<p><strong>Note:</strong> PyWebhooks is ideally deployed on an internal private cloud/network where you
+know and trust the end users and services using it. It should not be considered
+secure enough (currently) to be a publicly deployed service.</p>
+
+<p>Don't like something? Need a feature? Please submit a pull request complete with
+tests and an update to the <a href="https://github.com/chadlung/pywebhooks/blob/master/README.rst">readme</a> if required.</p>
+
+<p>In order to run PyWebhooks you'll need to have <a href="http://rethinkdb.com">RethinkDB</a>
+and <a href="http://redis.io">Redis</a> installed on a server or server(s). RethinkDB is
+used to store the account, webooks, etc. data. Redis is used by
+<a href="http://http://www.celeryproject.org">Celery</a> to handle the calls to the
+webhook endpoints.</p>
+
+<p><strong>Note:</strong> PyWebhooks has been tested on Ubuntu 14.04 and OS X.
+PyWebhooks has been tested with Python 3.4, prior Python 3.x versions have not
+been tested and Python 2.x support is not planned.</p>
+
+<h3>
+<a id="why-pywebhooks" class="anchor" href="#why-pywebhooks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why PyWebhooks?</h3>
+
+<p>I looked all over for a project that did something similar to this. You can find
+lots of code to listen for webhooks as well as some code for sending webhooks
+but I couldn't find anything that wrapped it into a complete package where you could
+run a server to allow for adding new accounts, letting those users create their
+own webhooks and then allow others to listen (subscribe) to those webhooks.</p>
+
+<p>Apache 2 Licensed</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/chadlung">chadlung</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
