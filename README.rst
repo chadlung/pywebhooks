@@ -1,7 +1,7 @@
 PyWebhooks
 ==========
 
-A simple webhooks service, minimal features, minimal security, proof of concept.
+*A simple webhooks service, minimal features, minimal security, proof of concept*
 
 **Note:** PyWebhooks is ideally deployed on an internal private cloud/network where you
 know and trust the end users and services using it. It should not be considered
