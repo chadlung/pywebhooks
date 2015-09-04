@@ -6,3 +6,5 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script: nosetests
+# run on container-based infrastructure
+sudo: false
