@@ -20,6 +20,15 @@ webhook endpoints.
 PyWebhooks has been tested with Python 3.4, prior Python 3.x versions have not
 been tested and Python 2.x support is not planned.
 
+Why PyWebhooks?
+^^^^^^^^^^^^^^^
+
+I looked all over for a project that did something similar to this. You can find
+lots of code to listen for webhooks as well as some code for sending webhooks
+but I couldn't find anything that wrapped it into a complete package where you could
+run a server to allow for adding new accounts, letting those users create their
+own webhooks and then allow others to listen (subscribe) to those webhooks.
+
 **TODOs:**
 
 1. Add Logging
@@ -50,9 +59,6 @@ admin accounts by running the following:
     Complete
 
 Make note of the admin ``api_key`` as it will be stored as a hash.
-
-Account Actions
-^^^^^^^^^^^^^^^
 
 When you create a new user account there are a few things to consider. First,
 you need to have an endpoint setup where the account creation process can verify
@@ -173,6 +179,9 @@ Start the main project in development mode:
 
 With your endpoint service and Celery worker running you can now perform
 the following calls.
+
+Account Actions
+^^^^^^^^^^^^^^^
 
 **Creating an account:**
 
