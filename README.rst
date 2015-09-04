@@ -3,6 +3,9 @@ PyWebhooks
 
 *A simple webhooks service, minimal features, minimal security, proof of concept*
 
+.. image:: https://travis-ci.org/chadlung/pywebhooks.svg?branch=master
+    :target: https://travis-ci.org/chadlung/pywebhooks
+
 **Note:** PyWebhooks is ideally deployed on an internal private cloud/network where you
 know and trust the end users and services using it. It should not be considered
 secure enough (currently) to be a publicly deployed service.
