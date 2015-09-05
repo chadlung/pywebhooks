@@ -1,11 +1,3 @@
-
-# def drop_database():
-#     try:
-#         with get_connection() as conn:
-#             rethink.db_drop(DEFAULT_DB_NAME).run(conn)
-#     except (RqlRuntimeError, RqlDriverError) as err:
-#             print(err.message)
-
 # Standard lib imports
 import unittest
 from unittest.mock import Mock

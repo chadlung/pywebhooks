@@ -25,7 +25,8 @@ def verify_hmac_hash(incoming_json, secret_key, incoming_signature):
 
 def create_response(req):
     if request.args.get('echo'):
-        return make_response(jsonify({'echo': req.args.get('echo')}), client.OK)
+        return make_response(jsonify({'echo': req.args.get('echo')}),
+                             client.OK)
     if request.args.get('api_key'):
         print('New api_key: {0}'.format(req.args.get('api_key')))
         return make_response(jsonify({}), client.OK)
