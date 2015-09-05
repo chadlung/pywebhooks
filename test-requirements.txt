@@ -1,5 +1,6 @@
 coverage
 flake8
+Flask-Testing
 nose
 pep8
 pylint

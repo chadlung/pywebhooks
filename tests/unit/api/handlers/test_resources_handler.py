@@ -3,7 +3,8 @@ import unittest
 from unittest.mock import patch
 
 # Third party imports
-# None
+from flask.ext.testing import TestCase
+from flask import Flask
 
 # Project level imports
 from pywebhooks import DEFAULT_REGISTRATIONS_TABLE, \
@@ -11,7 +12,7 @@ from pywebhooks import DEFAULT_REGISTRATIONS_TABLE, \
 from pywebhooks.database.rethinkdb.interactions import Interactions
 from pywebhooks.api.handlers.resources_handler import \
     registration_id_exists, lookup_subscription_id, lookup_registration_id, \
-    lookup_account_id
+    lookup_account_id, validate_access
 
 
 def suite():
@@ -20,10 +21,13 @@ def suite():
     return test_suite
 
 
-class WhenTestingResourcesHandler(unittest.TestCase):
+class WhenTestingResourcesHandler(TestCase):
 
-    def setUp(self):
-        pass
+    def create_app(self):
+
+        app = Flask(__name__)
+        app.config['TESTING'] = True
+        return app
 
     def test_registration_id_exists(self):
         with patch.object(Interactions, 'query', return_value=True) as \
@@ -92,3 +96,69 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                 DEFAULT_ACCOUNTS_TABLE,
                 filters=filters
             )
+
+    def test_validate_access_admin(self):
+        self.assertIsNone(validate_access('admin'))
+
+    @patch('pywebhooks.api.handlers.resources_handler.lookup_account_id')
+    @patch('pywebhooks.api.handlers.resources_handler.lookup_registration_id')
+    def test_validate_access_registration_id(self,
+                                             lookup_registration_id_method,
+                                             lookup_account_id_method,):
+
+        account_id = '555'
+        registration_id = '444'
+
+        lookup_account_id_method.return_value = account_id
+        lookup_registration_id_method.return_value = True
+        return_value = validate_access('fred', registration_id='444')
+
+        self.assertIsNone(return_value)
+        lookup_account_id_method.assert_called_with('fred')
+        lookup_registration_id_method.assert_called_with(
+            account_id, registration_id)
+        lookup_registration_id_method.return_value = False
+        response = validate_access('fred', registration_id='444')
+
+        self.assert_status(response=response, status_code=401)
+
+    @patch('pywebhooks.api.handlers.resources_handler.lookup_account_id')
+    @patch('pywebhooks.api.handlers.resources_handler.lookup_subscription_id')
+    def test_validate_access_subscription_id(self,
+                                             lookup_subscription_id_method,
+                                             lookup_account_id_method,):
+
+        account_id = '123'
+        subscription_id = '775'
+
+        lookup_account_id_method.return_value = account_id
+        lookup_subscription_id_method.return_value = True
+        return_value = validate_access('fred', subscription_id='775')
+
+        self.assertIsNone(return_value)
+        lookup_account_id_method.assert_called_with('fred')
+
+        lookup_subscription_id_method.assert_called_with(
+            account_id, subscription_id)
+        lookup_subscription_id_method.return_value = False
+        response = validate_access('fred', subscription_id='775')
+
+        self.assert_status(response=response, status_code=401)
+
+    @patch('pywebhooks.api.handlers.resources_handler.lookup_account_id')
+    def test_validate_access_incoming_account_id(self,
+                                                 lookup_account_id_method):
+
+        account_id = '111222'
+
+        lookup_account_id_method.return_value = account_id
+
+        response = validate_access(
+            'fred', incoming_account_id='333444')
+
+        lookup_account_id_method.assert_called_with('fred')
+        self.assert_status(response=response, status_code=401)
+
+        response = validate_access(
+            'fred', incoming_account_id='111222')
+        self.assertIsNone(response)
