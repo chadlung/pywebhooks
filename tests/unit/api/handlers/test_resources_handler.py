@@ -443,8 +443,10 @@ class WhenTestingResourcesHandler(unittest.TestCase):
 
     def test_delete_account(self):
         with self.app.test_request_context():
-            response = delete_account('123')
-            self.assertEqual(response.status_code, client.OK)
+            with patch.object(Interactions, 'delete_specific',
+                              return_value={}):
+                response = delete_account('123')
+                self.assertEqual(response.status_code, client.OK)
 
     def test_delete_account_rql_runtime_error(self):
         with self.app.test_request_context():
