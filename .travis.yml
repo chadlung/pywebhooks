@@ -12,6 +12,6 @@ sudo: false
 
 script:
   - python setup.py install
-  - nosetests --with-coverage
+  - nosetests --with-coverage --cover-package=pywebhooks
 after_success:
   - coveralls
