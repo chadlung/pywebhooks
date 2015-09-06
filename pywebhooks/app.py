@@ -67,7 +67,7 @@ def before_request():
         return 'Unsupported Media Type', 415
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     parser = argparse.ArgumentParser(description='Run the PyWebHooks app')
     parser.add_argument('--initdb', dest='initdb', action='store_true')
     args = parser.parse_args()

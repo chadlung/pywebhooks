@@ -3,4 +3,4 @@ branch = True
 source = pywebhooks
 
 [report]
-omit = *tests/*,*examples/*,*__init__*
+omit = *tests/*,*examples/*,*__init__*,*/database/rethinkdb/interactions.py
