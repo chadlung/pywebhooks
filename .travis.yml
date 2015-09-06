@@ -5,6 +5,7 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install -r test-requirements.txt
+  - pip install coveralls
 # command to run tests
 script: nosetests
 # run on container-based infrastructure
@@ -12,6 +13,6 @@ sudo: false
 
 script:
   - python setup.py install
-  - nosetests --with-coverage --cover-package=pywebhooks
+  - "coverage run --source=pywebhooks setup.py test"
 after_success:
   - coveralls
