@@ -452,8 +452,10 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                               return_value=[{'id': '123'}]):
                 with patch.object(Interactions, 'query',
                                   return_value={}):
-                    response = delete_account('123')
-                    self.assertEqual(response.status_code, client.OK)
+                    with patch.object(Interactions, 'delete',
+                                      return_value={}):
+                        response = delete_account('123')
+                        self.assertEqual(response.status_code, client.OK)
 
     def test_delete_account_rql_runtime_error(self):
         with self.app.test_request_context():
