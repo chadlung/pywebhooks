@@ -399,9 +399,11 @@ class WhenTestingResourcesHandler(unittest.TestCase):
         with self.app.test_request_context():
             with patch.object(Interactions, 'query',
                               return_value={}):
-                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
-                                          **self.param_kwargs)
-                self.assertEqual(response.status_code, client.CREATED)
+                with patch.object(Interactions, 'insert',
+                                  return_value={'id': '123'}):
+                    response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                              **self.param_kwargs)
+                    self.assertEqual(response.status_code, client.CREATED)
 
     def test_insert_account_conflict(self):
         with self.app.test_request_context():
@@ -441,12 +443,17 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                 self.assertEqual(response.status_code,
                                  client.BAD_REQUEST)
 
-    def test_delete_account(self):
+    @patch('pywebhooks.api.handlers.resources_handler.delete_registration')
+    def test_delete_account(self, delete_registration_method):
+        delete_registration_method.return_value = None
+
         with self.app.test_request_context():
             with patch.object(Interactions, 'delete_specific',
-                              return_value={}):
-                response = delete_account('123')
-                self.assertEqual(response.status_code, client.OK)
+                              return_value=[{'id': '123'}]):
+                with patch.object(Interactions, 'query',
+                                  return_value={}):
+                    response = delete_account('123')
+                    self.assertEqual(response.status_code, client.OK)
 
     def test_delete_account_rql_runtime_error(self):
         with self.app.test_request_context():
