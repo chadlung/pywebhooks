@@ -97,8 +97,6 @@ def delete_account(record_id):
 
         for registration in registrations:
             delete_registration(registration['id'])
-        # Interactions.delete_specific(
-        #     DEFAULT_REGISTERED_TABLE, filters={'account_id': record_id})
 
         return make_response(
             jsonify(Interactions.delete(DEFAULT_ACCOUNTS_TABLE, record_id)),

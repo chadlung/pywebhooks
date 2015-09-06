@@ -14,7 +14,8 @@ from pywebhooks.database.rethinkdb.interactions import Interactions
 from pywebhooks.api.handlers.resources_handler import \
     registration_id_exists, lookup_subscription_id, lookup_registration_id, \
     lookup_account_id, validate_access, update, query, delete_all, \
-    delete_accounts_except_admins, delete_registration, delete, insert
+    delete_accounts_except_admins, delete_registration, delete, insert, \
+    insert_account, delete_account
 
 
 def suite():
@@ -30,8 +31,8 @@ class WhenTestingResourcesHandler(unittest.TestCase):
         self.app.config['TESTING'] = True
 
         self.param_kwargs = {
-            'tes1': 1,
-            'test2': 2
+            'username': 'johndoe',
+            'api_key': '123456789abcdef'
         }
 
     def test_registration_id_exists(self):
@@ -390,6 +391,87 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                               side_effect=TypeError):
                 response = insert(DEFAULT_SUBSCRIPTIONS_TABLE,
                                   **self.param_kwargs)
+                self.assertRaises(TypeError)
+                self.assertEqual(response.status_code,
+                                 client.BAD_REQUEST)
+
+    def test_insert_account(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              return_value={}):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertEqual(response.status_code, client.CREATED)
+
+    def test_insert_account_conflict(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              return_value={'username': 'johndoe'}):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertEqual(response.status_code, client.CONFLICT)
+
+    def test_insert_account_rql_runtime_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=RqlRuntimeError(None, None, None)):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertRaises(RqlRuntimeError)
+                self.assertEqual(response.status_code,
+                                 client.INTERNAL_SERVER_ERROR)
+
+    def test_insert_account_rql_driver_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=RqlDriverError(None)):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertRaises(RqlDriverError)
+                self.assertEqual(response.status_code,
+                                 client.INTERNAL_SERVER_ERROR)
+
+    def test_insert_account_type_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=TypeError):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertRaises(TypeError)
+                self.assertEqual(response.status_code,
+                                 client.BAD_REQUEST)
+
+    def test_delete_account(self):
+        with self.app.test_request_context():
+            response = delete_account('123')
+            self.assertEqual(response.status_code, client.OK)
+
+    def test_delete_account_rql_runtime_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=RqlRuntimeError(None, None, None)):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertRaises(RqlRuntimeError)
+                self.assertEqual(response.status_code,
+                                 client.INTERNAL_SERVER_ERROR)
+
+    def test_delete_account_rql_driver_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=RqlDriverError(None)):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
+                self.assertRaises(RqlDriverError)
+                self.assertEqual(response.status_code,
+                                 client.INTERNAL_SERVER_ERROR)
+
+    def test_delete_account_type_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=TypeError):
+                response = insert_account(DEFAULT_SUBSCRIPTIONS_TABLE,
+                                          **self.param_kwargs)
                 self.assertRaises(TypeError)
                 self.assertEqual(response.status_code,
                                  client.BAD_REQUEST)
