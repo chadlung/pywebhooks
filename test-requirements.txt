@@ -4,5 +4,6 @@ Flask-Testing
 nose
 pep8
 pylint
+python-coveralls
 testtools
 tox

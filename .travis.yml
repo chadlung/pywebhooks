@@ -9,3 +9,8 @@ install:
 script: nosetests
 # run on container-based infrastructure
 sudo: false
+
+script:
+  - python setup.py install
+after_success:
+  - coveralls

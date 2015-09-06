@@ -1,4 +1,6 @@
 [run]
 branch = True
 source = pywebhooks
-omit = tests/*,examples/*
+
+[report]
+omit = *tests/*,*examples/*,*__init__*
