@@ -7,7 +7,6 @@ from unittest.mock import patch
 import rethinkdb as rethink
 
 # Project level imports
-from pywebhooks import DEFAULT_DB_NAME
 from pywebhooks.database.rethinkdb.initialize import create_database
 
 
