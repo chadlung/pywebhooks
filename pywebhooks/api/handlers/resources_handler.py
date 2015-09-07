@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash
 from pywebhooks import DEFAULT_SUBSCRIPTIONS_TABLE, \
     REQUEST_TIMEOUT, DEFAULT_ACCOUNTS_TABLE, DEFAULT_REGISTRATIONS_TABLE
 from pywebhooks.database.rethinkdb.interactions import Interactions
-from pywebhooks.utils.common import generate_key
+from pywebhooks.utils import common
 from pywebhooks.utils.request_handler import RequestHandler
 
 
@@ -224,7 +224,7 @@ def client_echo_valid(endpoint):
     try:
         request_handler = RequestHandler(
             verify_ssl=False, request_timeout=REQUEST_TIMEOUT)
-        validation_key = generate_key()
+        validation_key = common.generate_key()
 
         try:
             returned_json, status_code = request_handler.get(
@@ -287,7 +287,7 @@ def reset_key(username, key_type):
                 client.NOT_FOUND
             )
 
-        new_key = generate_key()
+        new_key = common.generate_key()
         salted_new_key = generate_password_hash(new_key)
 
         if not client_reset_key(endpoint, key_type, new_key):

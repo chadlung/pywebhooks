@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 # Third party imports
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
+import requests_mock
 
 # Project level imports
 from pywebhooks.app import create_wsgi_app
@@ -15,7 +16,7 @@ from pywebhooks.api.handlers.resources_handler import \
     registration_id_exists, lookup_subscription_id, lookup_registration_id, \
     lookup_account_id, validate_access, update, query, delete_all, \
     delete_accounts_except_admins, delete_registration, delete, insert, \
-    insert_account, delete_account
+    insert_account, delete_account, client_reset_key, client_echo_valid
 
 
 def suite():
@@ -486,3 +487,52 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                 self.assertRaises(TypeError)
                 self.assertEqual(response.status_code,
                                  client.BAD_REQUEST)
+
+    def test_client_reset_key_success(self):
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri('GET', 'http://localhost/endpoint',
+                                json={'api_key': '54321'},
+                                status_code=client.OK)
+
+            return_value = client_reset_key('http://localhost/endpoint',
+                                            'api_key', '12345')
+
+            self.assertTrue(return_value)
+
+    def test_client_reset_key_fail(self):
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri('GET', 'http://localhost/endpoint/hello',
+                                json={'api_key': '54321'},
+                                status_code=client.OK)
+
+            return_value = client_reset_key('http://localhost/endpoint',
+                                            'api_key', '12345')
+
+            self.assertFalse(return_value)
+
+    @patch('pywebhooks.utils.common.generate_key')
+    def test_client_echo_valid_success(self, generate_key_method):
+        generate_key_method.return_value = '12345GENKEY'
+
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri('GET', 'http://localhost/endpoint',
+                                json={'echo': '12345GENKEY'},
+                                status_code=client.OK)
+
+            self.assertTrue(client_echo_valid('http://localhost/endpoint'))
+
+    def test_client_echo_valid_fail_wrong_key(self):
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri('GET', 'http://localhost/endpoint',
+                                json={'echo': '12345GENKEY'},
+                                status_code=client.OK)
+
+            self.assertFalse(client_echo_valid('http://localhost/endpoint'))
+
+    def test_client_echo_valid_fail_wrong_status(self):
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri('GET', 'http://localhost/endpoint',
+                                json={'echo': '12345GENKEY'},
+                                status_code=client.INTERNAL_SERVER_ERROR)
+
+            self.assertFalse(client_echo_valid('http://localhost/endpoint'))
