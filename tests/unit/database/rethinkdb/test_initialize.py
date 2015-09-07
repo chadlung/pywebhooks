@@ -39,5 +39,5 @@ class WhenTestingInitialize(unittest.TestCase):
                     create_database()
 
                     db_list_method.assert_called_once()
-                    db_create_method.assert_called_with(DEFAULT_DB_NAME)
-                    db_method.assert_called_with(DEFAULT_DB_NAME)
+                    db_create_method.assert_called_once()
+                    db_method.assert_called_once()
