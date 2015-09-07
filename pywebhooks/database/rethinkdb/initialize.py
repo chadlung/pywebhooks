@@ -15,8 +15,6 @@ def create_database():
     Creates a new RethinkDB database with tables if it doesn't already exist
     """
     try:
-        tables_added_list = []
-
         with get_connection() as conn:
             db_list = rethink.db_list().run(conn)
 
@@ -31,7 +29,6 @@ def create_database():
                     # Add the missing table(s)
                     rethink.db(DEFAULT_DB_NAME).table_create(table_name)\
                         .run(conn)
-                    tables_added_list.append(table_name)
 
     except (RqlRuntimeError, RqlDriverError) as err:
             print(err.message)
