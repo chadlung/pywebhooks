@@ -16,7 +16,8 @@ from pywebhooks.api.handlers.resources_handler import \
     registration_id_exists, lookup_subscription_id, lookup_registration_id, \
     lookup_account_id, validate_access, update, query, delete_all, \
     delete_accounts_except_admins, delete_registration, delete, insert, \
-    insert_account, delete_account, client_reset_key, client_echo_valid
+    insert_account, delete_account, client_reset_key, client_echo_valid, \
+    reset_key
 
 
 def suite():
@@ -536,3 +537,61 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                                 status_code=client.INTERNAL_SERVER_ERROR)
 
             self.assertFalse(client_echo_valid('http://localhost/endpoint'))
+
+    def test_reset_key_endpoint_not_found(self):
+        records = [{'endpoint': ''}]
+
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query', return_value=records):
+                response = reset_key('johndoe', 'api_key')
+                self.assertEqual(response.status_code,
+                                 client.NOT_FOUND)
+
+    def test_reset_key_endpoint_call_fail(self):
+        records = [{'endpoint': 'http://localhost/endpoint'}]
+
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query', return_value=records):
+                response = reset_key('johndoe', 'api_key')
+                self.assertEqual(response.status_code,
+                                 client.BAD_REQUEST)
+
+    @patch('pywebhooks.api.handlers.resources_handler.client_reset_key')
+    def test_reset_key_api_key(self, client_reset_key_method):
+        records = [{'endpoint': 'http://localhost/endpoint'}]
+        client_reset_key_method.return_value = True
+
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query', return_value=records):
+                with patch.object(Interactions, 'update', return_value=None):
+                    response = reset_key('johndoe', 'api_key')
+                    self.assertEqual(response.status_code, client.OK)
+
+    @patch('pywebhooks.api.handlers.resources_handler.client_reset_key')
+    def test_reset_key_secret_key(self, client_reset_key_method):
+        records = [{'endpoint': 'http://localhost/endpoint'}]
+        client_reset_key_method.return_value = True
+
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query', return_value=records):
+                with patch.object(Interactions, 'update', return_value=None):
+                    response = reset_key('johndoe', 'secret_key')
+                    self.assertEqual(response.status_code, client.OK)
+
+    def test_reset_key_rql_runtime_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=RqlRuntimeError(None, None, None)):
+                    response = reset_key('johndoe', 'api_key')
+                    self.assertRaises(RqlRuntimeError)
+                    self.assertEqual(response.status_code,
+                                     client.INTERNAL_SERVER_ERROR)
+
+    def test_reset_key_rql_driver_error(self):
+        with self.app.test_request_context():
+            with patch.object(Interactions, 'query',
+                              side_effect=RqlDriverError(None)):
+                    response = reset_key('johndoe', 'api_key')
+                    self.assertRaises(RqlDriverError)
+                    self.assertEqual(response.status_code,
+                                     client.INTERNAL_SERVER_ERROR)
