@@ -43,8 +43,10 @@ own webhooks and then allow others to listen (subscribe) to those webhooks.
 
 4. ... probably more
 
-To get started quickly, see my intro `blog article <http://www.giantflyingsaucer.com/blog/?p=5666>`__
+**Quick Start:** To get going quickly, see my intro `blog article <http://www.giantflyingsaucer.com/blog/?p=5666>`__
 as well as a helpful vagrant starter: `vagrant-pywebhooks <https://github.com/chadlung/vagrant-pywebhooks>`__
+
+If you don't use the quick start mentioned above:
 
 Once you have Redis and RethinkDB setup you can initialize the database and
 admin accounts by running the following:
