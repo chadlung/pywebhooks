@@ -57,8 +57,6 @@ admin accounts by running the following:
 
 **Response:**
 
-**Note:** The actual output will be in a logging format
-
 ::
 
     Dropping database...
