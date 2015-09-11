@@ -1,7 +1,7 @@
-import base64
 import hashlib
 import hmac
 from http import client
+import json
 
 from flask import Flask
 from flask import request, make_response, jsonify
@@ -10,7 +10,7 @@ from flask import request, make_response, jsonify
 app = Flask(__name__)
 
 # Adjust this as needed
-SECRET_KEY = '509566acece60d5daf8699f16e4a6d3bb6aebfe1'
+SECRET_KEY = 'c27e823b0a500a537990dcccfc50334fe814fbd2'
 
 
 def verify_hmac_hash(incoming_json, secret_key, incoming_signature):
@@ -18,7 +18,7 @@ def verify_hmac_hash(incoming_json, secret_key, incoming_signature):
         str(secret_key).encode('utf-8'),
         str(incoming_json).encode('utf-8'),
         digestmod=hashlib.sha1
-    ).digest()
+    ).hexdigest()
 
     return hmac.compare_digest(signature, incoming_signature)
 
@@ -38,11 +38,12 @@ def create_response(req):
 def webhook_listener(request):
     print(request.headers)
     print(request.data)
+    print(json.dumps(request.json))
 
     is_signature_valid = verify_hmac_hash(
-        request.json,
+        json.dumps(request.json),
         SECRET_KEY,
-        base64.urlsafe_b64decode(request.headers['pywebhooks-signature'])
+        request.headers['pywebhooks-signature']
     )
 
     print('Is Signature Valid?: {0}'.format(is_signature_valid))

@@ -91,14 +91,62 @@ this would like:
 **Note:** PyWebhooks doesn't require your service be written in Python, any
 language will do as long as it returns what is expected (in this case the echo value).
 
+In Ruby 2.2.x using Sinatra a minimal endpoint server (handles Webhook POST traffic
+and GET echo requests) might look like this:
+
+::
+
+    require 'rubygems'
+    require 'openssl'
+    require 'sinatra'
+    require 'json'
+
+
+    SHARED_SECRET = 'c27e823b0a500a537990dcccfc50334fe814fbd2'
+
+    # Handle echo requests
+    get '/account/endpoint' do
+        content_type :json
+        echo_value = params['echo']
+        puts 'echo value:'
+        puts(echo_value)
+
+        status 200
+        { :echo => echo_value }.to_json
+    end
+
+    # Handle the incoming webhook events
+    post '/account/endpoint' do
+      request.body.rewind
+      data = request.body.read
+      HMAC_DIGEST = OpenSSL::Digest.new('sha1')
+      signature = OpenSSL::HMAC.hexdigest(HMAC_DIGEST, SHARED_SECRET, data)
+      incoming_signature = env['HTTP_PYWEBHOOKS_SIGNATURE']
+
+      puts 'hmac verification results:'
+      puts Rack::Utils.secure_compare(signature, incoming_signature)
+
+      incoming_event = env['HTTP_EVENT']
+      puts 'incoming event is:'
+      puts incoming_event
+      puts 'incoming json is:'
+      puts data
+
+      status 200
+      '{}'
+    end
+
+
+**Note:** Pardon my Ruby, I'm rusty with it.
+
 A full Python 3.4 endpoint example server code (for testing) can be a simple as:
 
 ::
 
-    import base64
     import hashlib
     import hmac
     from http import client
+    import json
 
     from flask import Flask
     from flask import request, make_response, jsonify
@@ -107,7 +155,7 @@ A full Python 3.4 endpoint example server code (for testing) can be a simple as:
     app = Flask(__name__)
 
     # Adjust this as needed
-    SECRET_KEY = '2251ba01675503a4efa9ed7e8af24203b7a67864'
+    SECRET_KEY = 'c27e823b0a500a537990dcccfc50334fe814fbd2'
 
 
     def verify_hmac_hash(incoming_json, secret_key, incoming_signature):
@@ -115,7 +163,7 @@ A full Python 3.4 endpoint example server code (for testing) can be a simple as:
             str(secret_key).encode('utf-8'),
             str(incoming_json).encode('utf-8'),
             digestmod=hashlib.sha1
-        ).digest()
+        ).hexdigest()
 
         return hmac.compare_digest(signature, incoming_signature)
 
@@ -134,11 +182,12 @@ A full Python 3.4 endpoint example server code (for testing) can be a simple as:
     def webhook_listener(request):
         print(request.headers)
         print(request.data)
+        print(json.dumps(request.json))
 
         is_signature_valid = verify_hmac_hash(
-            request.json,
+            json.dumps(request.json),
             SECRET_KEY,
-            base64.urlsafe_b64decode(request.headers['pywebhooks-signature'])
+            request.headers['pywebhooks-signature']
         )
 
         print('Is Signature Valid?: {0}'.format(is_signature_valid))

@@ -1,7 +1,7 @@
 # Standard lib imports
-import base64
 import hashlib
 import hmac
+import json
 import unittest
 
 # Third party imports
@@ -21,51 +21,36 @@ class WhenTestingCommonFunctions(unittest.TestCase):
 
     def setUp(self):
         self.secret_key = 'secret-key'
-        self.json_data = '{"hello": "world}'
-
-        self.base64_encoded_signature = base64.urlsafe_b64encode(hmac.new(
-            str(self.secret_key).encode('utf-8'),
-            str(self.json_data).encode('utf-8'),
-            digestmod=hashlib.sha1
-        ).digest())
+        self.json_data = "{'message': 'hello world'}"
 
         self.signature = hmac.new(
             str(self.secret_key).encode('utf-8'),
-            str(self.json_data).encode('utf-8'),
+            str(json.dumps(self.json_data)).encode('utf-8'),
             digestmod=hashlib.sha1
         ).digest()
 
-    def test_secret_key(self):
-        test_signature = base64.urlsafe_b64encode(hmac.new(
+    def test_bad_secret_key(self):
+        test_signature = hmac.new(
             str('bad-secret-key').encode('utf-8'),
-            str(self.json_data).encode('utf-8'),
+            str(json.dumps(self.json_data)).encode('utf-8'),
             digestmod=hashlib.sha1
-        ).digest())
+        ).hexdigest()
 
         self.assertNotEqual(
             test_signature,
             create_signature(self.secret_key, self.json_data)
         )
 
-    def test_base64_encoded_signature(self):
+    def test_good_secret_key(self):
+        test_signature = hmac.new(
+            str(self.secret_key).encode('utf-8'),
+            str(json.dumps(self.json_data)).encode('utf-8'),
+            digestmod=hashlib.sha1
+        ).hexdigest()
+
         self.assertEqual(
-            self.base64_encoded_signature,
+            test_signature,
             create_signature(self.secret_key, self.json_data)
-        )
-
-    def test_no_base64_encoded_signature(self):
-        self.assertEqual(
-            self.signature,
-            create_signature(
-                self.secret_key, self.json_data, base64_encode=False
-            )
-        )
-
-        self.assertNotEqual(
-            self.signature,
-            create_signature(
-                self.secret_key, self.json_data, base64_encode=True
-            )
         )
 
     def test_generate_key(self):
