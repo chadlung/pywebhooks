@@ -21,7 +21,7 @@ used to store the account, webooks, etc. data. Redis is used by
 webhook endpoints.
 
 **Note:** PyWebhooks has been tested on Ubuntu 14.04 and OS X.
-PyWebhooks has been tested with Python 3.4, prior Python 3.x versions have not
+PyWebhooks has been tested with Python 3.4.x and 3.5.x. Prior Python 3.x versions have not
 been tested and Python 2.x support is not planned.
 
 Why PyWebhooks?
