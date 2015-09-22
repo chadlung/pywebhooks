@@ -23,7 +23,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='pywebhooks',
-    url='https://github.com/chadlung/pywenhooks',
+    url='https://github.com/chadlung/pywebhooks',
     keywords=['WebHooks'],
     long_description=readme,
     version=read('VERSION')[0],
