@@ -9,6 +9,7 @@ import rethinkdb as rethink
 # Project level imports
 from pywebhooks import DEFAULT_DB_NAME
 from pywebhooks.database.rethinkdb.drop import drop_database
+from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
 
 def suite():
@@ -34,3 +35,17 @@ class WhenTestingDrop(unittest.TestCase):
             db_drop_method.assert_called_once()
             db_drop_method.run.assert_called_once()
             db_drop_method.assert_called_with(DEFAULT_DB_NAME)
+
+    @patch('pywebhooks.database.rethinkdb.drop.get_connection',
+           side_effect=RqlDriverError(None))
+    def test_drop_database_throws_rql_driver_error(self, _):
+        with self.assertRaises(RqlDriverError) as cm:
+            drop_database()
+            self.assertEqual(cm.exception, RqlDriverError(None))
+
+    @patch('pywebhooks.database.rethinkdb.drop.get_connection',
+           side_effect=RqlRuntimeError(None, None, None))
+    def test_drop_database_throws_rql_runtime_error(self, _):
+        with self.assertRaises(RqlRuntimeError) as cm:
+            drop_database()
+            self.assertEqual(cm.exception, RqlRuntimeError(None, None, None))

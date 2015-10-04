@@ -31,4 +31,4 @@ def create_database():
                         .run(conn)
 
     except (RqlRuntimeError, RqlDriverError) as err:
-            print(err.message)
+            raise err

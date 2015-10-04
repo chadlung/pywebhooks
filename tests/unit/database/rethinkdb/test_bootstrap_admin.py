@@ -38,13 +38,15 @@ class WhenTestingBootstrapAdminFunctions(unittest.TestCase):
     def test_create_admin_account_throws_rql_runtime_error(self):
         with patch.object(Interactions, 'insert',
                           side_effect=RqlRuntimeError(None, None, None)):
-
-            create_admin_account()
-            self.assertRaises(RqlRuntimeError)
+            with self.assertRaises(RqlRuntimeError) as cm:
+                create_admin_account()
+                self.assertEqual(cm.exception,
+                                 RqlRuntimeError(None, None, None))
 
     def test_create_admin_account_throws_rql_driver_error(self):
         with patch.object(Interactions, 'insert',
                           side_effect=RqlDriverError(None)):
-
-            create_admin_account()
-            self.assertRaises(RqlDriverError)
+            with self.assertRaises(RqlDriverError) as cm:
+                create_admin_account()
+                self.assertEqual(cm.exception,
+                                 RqlDriverError(None))

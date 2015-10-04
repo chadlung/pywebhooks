@@ -60,7 +60,6 @@ class RequestHandler(object):
         if signature:
             self.headers['pywebhooks-signature'] = signature
 
-        # try:
         if http_verb == "PUT":
             req = self._session.put(
                 url=url,

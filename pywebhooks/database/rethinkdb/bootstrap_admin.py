@@ -29,4 +29,4 @@ def create_admin_account():
 
         return {'api_key': original_api_key, 'secret_key': secret_key}
     except (RqlRuntimeError, RqlDriverError) as err:
-        print(err.message)
+        raise err
