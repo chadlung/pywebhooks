@@ -39,9 +39,7 @@ own webhooks and then allow others to listen (subscribe) to those webhooks.
 
 2. Change how config works
 
-3. ~~Add more unit tests~~
-
-4. Add Docker Compose quick start
+3. Add Docker Compose quick start
 
 Quickstart
 ^^^^^^^^^^
