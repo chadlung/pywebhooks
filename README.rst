@@ -39,9 +39,9 @@ own webhooks and then allow others to listen (subscribe) to those webhooks.
 
 2. Change how config works
 
-3. Add more unit tests
+3. ~~Add more unit tests~~
 
-4. ... probably more
+4. Add Docker Compose quick start
 
 Quickstart
 ^^^^^^^^^^
@@ -86,7 +86,7 @@ The PyWebhooks server will hit the endpoint you specified like this:
 ``/account/endpoint?echo=2cac9beaa2f3b3aa72cc86faefb7575ba9c3c4b8``
 
 It is your server's job to take that echo value and return it. In Python (using Flask)
-this would like:
+this would look like:
 
 ::
 
