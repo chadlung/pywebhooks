@@ -104,4 +104,4 @@ class WhenTestingWebHookNotifications(unittest.TestCase):
             except Exception as exc:
                 self.assertEqual('Endpoint returning non HTTP 200 status. '
                                  'Actual code returned: 500', exc.args[0])
-                self.assertRaises(exc)
+                self.assertRaises(Exception)

@@ -38,9 +38,9 @@ class WhenTestingInitialize(unittest.TestCase):
 
                     create_database()
 
-                    db_list_method.assert_called_once()
-                    db_create_method.assert_called_once()
-                    db_method.assert_called_once()
+                    self.assertTrue(db_list_method.called)
+                    self.assertTrue(db_create_method.called)
+                    self.assertTrue(db_method.called)
 
     @patch('pywebhooks.database.rethinkdb.initialize.get_connection',
            side_effect=RqlDriverError(None))

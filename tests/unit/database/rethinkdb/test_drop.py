@@ -32,9 +32,7 @@ class WhenTestingDrop(unittest.TestCase):
 
             drop_database()
 
-            db_drop_method.assert_called_once()
-            db_drop_method.run.assert_called_once()
-            db_drop_method.assert_called_with(DEFAULT_DB_NAME)
+            db_drop_method.assert_called_once_with(DEFAULT_DB_NAME)
 
     @patch('pywebhooks.database.rethinkdb.drop.get_connection',
            side_effect=RqlDriverError(None))

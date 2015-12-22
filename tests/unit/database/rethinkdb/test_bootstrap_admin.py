@@ -27,7 +27,7 @@ class WhenTestingBootstrapAdminFunctions(unittest.TestCase):
 
             return_data = create_admin_account()
 
-            insert_method.assert_called_once()
+            self.assertTrue(insert_method.called)
 
             self.assertTrue('api_key' in return_data)
             self.assertTrue('secret_key' in return_data)
