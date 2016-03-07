@@ -5,7 +5,8 @@ PyWebhooks
 
 .. image:: https://travis-ci.org/chadlung/pywebhooks.svg?branch=master
     :target: https://travis-ci.org/chadlung/pywebhooks
-.. image:: https://coveralls.io/repos/chadlung/pywebhooks/badge.svg?branch=master&service=github :target: https://coveralls.io/github/chadlung/pywebhooks?branch=master
+.. image:: https://coveralls.io/repos/chadlung/pywebhooks/badge.svg?branch=master&service=github 
+    :target: https://coveralls.io/github/chadlung/pywebhooks?branch=master
 
 **Note:** PyWebhooks is ideally deployed on an internal private cloud/network where you
 know and trust the end users and services using it. It should not be considered
