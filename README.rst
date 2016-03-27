@@ -256,7 +256,7 @@ A full Python 3.4 endpoint example server code (for testing) can be a simple as:
 
 
     if __name__ == '__main__':
-        app.run(debug=True, port=9090)
+        app.run(debug=True, port=9090, host='0.0.0.0')
 
 
 You can save that code off into it's own project if you want just make sure to
