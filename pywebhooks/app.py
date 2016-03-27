@@ -1,5 +1,6 @@
 # Standard lib imports
 import argparse
+import sys
 
 # Third-party imports
 from celery import Celery
@@ -58,6 +59,7 @@ def create_wsgi_app():
 
 
 CELERY = Celery(__name__, broker=CELERY_BROKER_URL)
+CELERY.conf.update(CELERY_ACCEPT_CONTENT=['json'])
 app = create_wsgi_app()
 
 
@@ -67,18 +69,24 @@ def before_request():
         return 'Unsupported Media Type', 415
 
 
-if __name__ == '__main__':  # pragma: no cover
+def main(arguments=None):  # pragma: no cover
     parser = argparse.ArgumentParser(description='Run the PyWebHooks app')
     parser.add_argument('--initdb', dest='initdb', action='store_true')
-    args = parser.parse_args()
+    args = parser.parse_args(arguments)
 
     if args.initdb:
         print('Dropping database...')
-        drop_database()
+        try:
+            drop_database()
+        except Exception as ex:
+            print(str(ex))
         print('Creating database...')
         create_database()
         print('Adding admin account')
         print(create_admin_account())
         print('Complete')
     else:
-        app.run(debug=True, port=8081)
+        app.run(debug=True, port=8081, host='0.0.0.0')
+
+if __name__ == "__main__":  # pragma: no cover
+    main(sys.argv[1:])

@@ -44,5 +44,10 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux'
     ],
-    packages=find_packages(exclude=['ez_setup'])
+    packages=find_packages(exclude=['ez_setup']),
+    entry_points={
+        'console_scripts': [
+            'pywebhooks = pywebhooks.app:main'
+        ]
+    }
 )

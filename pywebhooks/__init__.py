@@ -25,8 +25,14 @@ DEFAULT_FINAL_RETRY = 3600  # On the final retry, try again in an hour
 # its ignored
 MAX_FAILED_COUNT = 250
 
+# For Vagrant (comment these two lines below out if using docker-compose)
 RETHINK_HOST = 'localhost'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+# For Docker - remove comments before running docker-compose up
+# and comment out the vagrant settings above
+# RETHINK_HOST = 'rethinkdb'
+# CELERY_BROKER_URL = 'redis://redis:6379/0'
+
 RETHINK_PORT = 28015
 RETHINK_AUTH_KEY = ''
-
-CELERY_BROKER_URL = 'redis://localhost:6379/0'

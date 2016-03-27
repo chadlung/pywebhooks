@@ -18,4 +18,4 @@ def drop_database():
         with get_connection() as conn:
             rethink.db_drop(DEFAULT_DB_NAME).run(conn)
     except (RqlRuntimeError, RqlDriverError) as err:
-            raise err
+        raise err

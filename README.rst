@@ -39,13 +39,48 @@ own webhooks and then allow others to listen (subscribe) to those webhooks.
 
 2. Change how config works
 
-3. Add Docker Compose quick start
-
-Quickstart
-^^^^^^^^^^
+Quickstart - Vagrant
+^^^^^^^^^^^^^^^^^^^^
 
 To get started quickly, see my introductory `blog article <http://www.giantflyingsaucer.com/blog/?p=5666>`__
 as well as a helpful vagrant starter: `vagrant-pywebhooks <https://github.com/chadlung/vagrant-pywebhooks>`__
+
+Quickstart - Docker-Compose
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To use Docker Compose perform the following in the ``pywebhooks\__init.py__`` file:
+
+Comment out the default Vagrant configuration:
+
+::
+
+    # RETHINK_HOST = 'localhost'
+    # CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+Un-Comment the Docker Compose configuration:
+
+::
+
+    RETHINK_HOST = 'rethinkdb'
+    CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+Make sure you are running Docker version ``1.10.0`` or newer. From a command line run the following from the project's ``docker`` folder:
+
+::
+
+    $ docker-compose up
+
+If you can don't run that in daemon mode as you can more easily capture the admin ``secret_key`` and ``api_key`` from the console output.
+It will look similar to this:
+
+::
+
+    pywebhooks-server | Adding admin account
+    pywebhooks-server | {'secret_key': 'd620fb92a70b7e5c127de74fcd717aa803f7e300', 'api_key': '7e8d21dda1c5738a30882e4520fbbfac55eebe3f'}
+
+Make sure to record those keys.
+
+For a detailed walk through see my `Docker Compose article for PyWebhooks <http://www.giantflyingsaucer.com/blog/?p=5841>`__
 
 Non-Quickstart
 ^^^^^^^^^^^^^^

@@ -1,0 +1,37 @@
+version: '2'
+services:
+    rethinkdb:
+      image: rethinkdb:latest
+
+    redis:
+      image: redis:latest
+
+    pywebhooks-worker:
+      container_name: pywebhooks-worker
+      build:
+        context: ../
+        dockerfile: docker/pywebhooks-worker.Dockerfile
+      command: "celery -A pywebhooks.tasks.webhook_notification worker --loglevel=info"
+      links:
+        - rethinkdb
+        - redis
+      depends_on:
+        - rethinkdb
+        - redis
+
+    pywebhooks-server:
+      container_name: pywebhooks-server
+      build:
+        context: ../
+        dockerfile: docker/pywebhooks-server.Dockerfile
+      command: "bash -c 'pywebhooks --initdb && pywebhooks'"
+      # If you don't want to wipe out the database each time do this instead:
+      # command: "pywebhooks'"
+      ports:
+        - "8081:8081"
+      links:
+        - rethinkdb
+        - redis
+      depends_on:
+        - rethinkdb
+        - redis
