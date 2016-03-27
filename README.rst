@@ -65,7 +65,7 @@ Un-Comment the Docker Compose configuration:
     RETHINK_HOST = 'rethinkdb'
     CELERY_BROKER_URL = 'redis://redis:6379/0'
 
-Make sure you are running Docker version ``1.10.0`` or newer. From a command line run the following from the project's ``docker`` folder:
+Make sure you are running Docker version ``1.10.0`` and Docker Compose ``1.6.0`` or newer. From a command line run the following from the project's ``docker`` folder:
 
 ::
 
