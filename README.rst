@@ -110,7 +110,7 @@ Make note of the admin ``api_key`` as it will be stored as a hash.
 When you create a new user account there are a few things to consider. First,
 you need to have an endpoint setup where the account creation process can verify
 against. The endpoint can be whatever you want, a simple example would be a
-service listening on: ``http://1270.0.1:9090/account/endpoint``
+service listening on: ``http://127.0.0.1:9090/account/endpoint``
 
 When you send the command to create the account if all goes well the PyWebhooks
 server will hit the endpoint you specified with a challenge you need to echo back.
