@@ -1,9 +1,11 @@
 # Standard lib imports
 from http import client
 import unittest
+from unittest.mock import Mock
 from unittest.mock import patch
 
 # Third party imports
+import rethinkdb as rethink
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 import requests_mock
 
@@ -171,14 +173,20 @@ class WhenTestingResourcesHandler(unittest.TestCase):
                 'fred', incoming_account_id='111222')
             self.assertIsNone(response)
 
-    def test_update_bad_request(self):
+    @patch('pywebhooks.database.rethinkdb.interactions.get_connection')
+    def test_update_bad_request(self, connection_method):
+        connection_method.return_value = Mock(__enter__=Mock, __exit__=Mock())
         with self.app.test_request_context():
-            with patch.object(Interactions, 'update', return_value=None):
+            with patch.object(rethink, 'table', return_value=Mock()) as \
+                    table_method:
                 response = update(DEFAULT_REGISTRATIONS_TABLE,
                                   record_id='123',
                                   username=None,
                                   updates={})
                 self.assertEqual(response.status_code, client.BAD_REQUEST)
+                table_method.assert_called_once_with(
+                    DEFAULT_REGISTRATIONS_TABLE
+                )
 
     def test_update_record_id(self):
         with self.app.test_request_context():
