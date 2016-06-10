@@ -3,7 +3,7 @@
 
 # Third-party imports
 from flask import request
-from flask.ext.restful import Resource
+from flask_restful import Resource
 
 # Project-level imports
 from pywebhooks.api.handlers.resources_handler import reset_key

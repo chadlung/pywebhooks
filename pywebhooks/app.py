@@ -4,13 +4,11 @@ import sys
 
 # Third-party imports
 from celery import Celery
-from pywebhooks import CELERY_BROKER_URL
-
-
 from flask import Flask, request
-from flask.ext.restful import Api
+from flask_restful import Api
 
 # Project-level imports
+from pywebhooks import CELERY_BROKER_URL
 from pywebhooks.api.resources.v1.account.account_api import AccountAPI
 from pywebhooks.api.resources.v1.account.accounts_api import AccountsAPI
 from pywebhooks.api.resources.v1.webhook.registration_api import \

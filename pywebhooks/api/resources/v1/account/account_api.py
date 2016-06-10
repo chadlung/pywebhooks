@@ -3,7 +3,7 @@ from http import client
 
 # Third-party imports
 from flask import request, jsonify, make_response
-from flask.ext.restful import Resource
+from flask_restful import Resource
 
 # Project-level imports
 from pywebhooks import DEFAULT_ACCOUNTS_TABLE
