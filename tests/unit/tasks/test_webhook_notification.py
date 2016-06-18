@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 
 # Third party imports
-# None
+from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
 # Project level imports
 from pywebhooks import DEFAULT_ACCOUNTS_TABLE
@@ -24,6 +24,15 @@ class WhenTestingWebHookNotifications(unittest.TestCase):
 
     def setUp(self):
         pass
+
+    def test_update_failed_count_exceptions(self):
+        with patch.object(Interactions, 'get',
+                          side_effect=RqlRuntimeError(None, None, None)):
+            self.assertIsNone(update_failed_count(account_id='123'))
+
+            with patch.object(Interactions, 'get',
+                              side_effect=RqlDriverError(None)):
+                self.assertIsNone(update_failed_count(account_id='123'))
 
     def test_update_failed_count(self):
         account_record = {
