@@ -72,13 +72,10 @@ class WhenTestingWebHookNotifications(unittest.TestCase):
                     updates={'failed_count': 0}
                 )
 
-    @patch('pywebhooks.app.CELERY.task')
     @patch('pywebhooks.tasks.webhook_notification.update_failed_count')
-    def test_notify_subscribed_accounts(self, update_failed_count_method,
-                                        celery_decorator):
+    def test_notify_subscribed_accounts(self, update_failed_count_method):
 
         account_id = '123'
-        celery_decorator.return_value = None
         update_failed_count_method.return_value = None
         request_handler_return = None, client.OK
 
@@ -94,12 +91,10 @@ class WhenTestingWebHookNotifications(unittest.TestCase):
                 increment_failed_count=False
             )
 
-    @patch('pywebhooks.app.CELERY.task')
     @patch('pywebhooks.tasks.webhook_notification.update_failed_count')
     def test_notify_subscribed_accounts_endppoint_issue(
-            self, update_failed_count_method, celery_decorator):
+            self, update_failed_count_method):
 
-        celery_decorator.return_value = None
         update_failed_count_method.return_value = None
         request_handler_return = None, client.INTERNAL_SERVER_ERROR
 
