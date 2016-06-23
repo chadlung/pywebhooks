@@ -7,6 +7,8 @@ PyWebhooks
     :target: https://travis-ci.org/chadlung/pywebhooks
 .. image:: https://coveralls.io/repos/chadlung/pywebhooks/badge.svg?branch=master&service=github 
     :target: https://coveralls.io/github/chadlung/pywebhooks?branch=master
+.. image:: https://badge.fury.io/py/pywebhooks.svg
+    :target: https://badge.fury.io/py/pywebhooks
 
 **Note:** PyWebhooks is ideally deployed on an internal private cloud/network where you
 know and trust the end users and services using it. It should not be considered
@@ -33,12 +35,6 @@ lots of code to listen for webhooks as well as some code for sending webhooks
 but I couldn't find anything that wrapped it into a complete package where you could
 run a server to allow for adding new accounts, letting those users create their
 own webhooks and then allow others to listen (subscribe) to those webhooks.
-
-**TODOs:**
-
-1. Add Logging
-
-2. Change how config works
 
 Quickstart - Vagrant
 ^^^^^^^^^^^^^^^^^^^^
