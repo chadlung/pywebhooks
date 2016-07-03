@@ -1,7 +1,7 @@
 PyWebhooks
 ==========
 
-*A simple webhooks service, minimal features, minimal security, proof of concept*
+*A simple webhooks service*
 
 .. image:: https://travis-ci.org/chadlung/pywebhooks.svg?branch=master
     :target: https://travis-ci.org/chadlung/pywebhooks
@@ -31,8 +31,8 @@ Why PyWebhooks?
 ^^^^^^^^^^^^^^^
 
 I looked all over for a project that did something similar to this. You can find
-lots of code to listen for webhooks as well as some code for sending webhooks
-but I couldn't find anything that wrapped it into a complete package where you could
+plenty of code to listen for incoming webhooks as well as some code for sending webhooks.
+However, I couldn't find anything that wrapped it into a complete service where you could
 run a server to allow for adding new accounts, letting those users create their
 own webhooks and then allow others to listen (subscribe) to those webhooks.
 
@@ -61,7 +61,7 @@ Un-Comment the Docker Compose configuration:
     RETHINK_HOST = 'rethinkdb'
     CELERY_BROKER_URL = 'redis://redis:6379/0'
 
-Make sure you are running Docker version ``1.10.0`` and Docker Compose ``1.6.0`` or newer. From a command line run the following from the project's ``docker`` folder:
+Make sure you are running Docker version ``1.10+`` and Docker Compose ``1.6+`` or newer. From a command line run the following from the project's ``docker`` folder:
 
 ::
 
@@ -125,7 +125,7 @@ this would look like:
         return make_response(jsonify({'echo': request.args.get('echo')}), client.OK)
 
 **Note:** PyWebhooks doesn't require your service be written in Python, any
-language will do as long as it returns what is expected (in this case the echo value).
+language will work as long as it returns what is expected (in this case the echo value).
 
 In Ruby 2.2.x using Sinatra a minimal endpoint server (handles Webhook POST traffic
 and GET echo requests) might look like this:
