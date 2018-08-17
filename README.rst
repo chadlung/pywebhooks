@@ -36,12 +36,6 @@ However, I couldn't find anything that wrapped it into a complete service where 
 run a server to allow for adding new accounts, letting those users create their
 own webhooks and then allow others to listen (subscribe) to those webhooks.
 
-Quickstart - Vagrant
-^^^^^^^^^^^^^^^^^^^^
-
-To get started quickly, see my introductory `blog article <http://www.giantflyingsaucer.com/blog/?p=5666>`__
-as well as a helpful vagrant starter: `vagrant-pywebhooks <https://github.com/chadlung/vagrant-pywebhooks>`__
-
 Quickstart - Docker-Compose
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -76,8 +70,6 @@ It will look similar to this:
     pywebhooks-server | {'secret_key': 'd620fb92a70b7e5c127de74fcd717aa803f7e300', 'api_key': '7e8d21dda1c5738a30882e4520fbbfac55eebe3f'}
 
 Make sure to record those keys.
-
-For a detailed walk through see my `Docker Compose article for PyWebhooks <http://www.giantflyingsaucer.com/blog/?p=5841>`__
 
 Non-Quickstart
 ^^^^^^^^^^^^^^
