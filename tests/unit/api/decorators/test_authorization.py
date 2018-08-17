@@ -66,6 +66,6 @@ class WhenTestingAuthorization(unittest.TestCase):
                 response = test_func()
                 self.assertEqual(
                     response.data,
-                    b'{\n  "Error": "Invalid API key"\n}\n'
+                    b'{"Error":"Invalid API key"}\n'
                 )
                 self.assertEqual(response.status_code, client.UNAUTHORIZED)
