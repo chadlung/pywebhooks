@@ -27,7 +27,7 @@ class WhenTestingRethinkDBHelper(unittest.TestCase):
 
             get_connection()
 
-            connect_method.assert_called_once_with(host='rethinkdb',
+            connect_method.assert_called_once_with(host='localhost',
                                                    port=28015,
                                                    auth_key='',
                                                    db=DEFAULT_DB_NAME)
