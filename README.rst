@@ -162,7 +162,7 @@ and GET echo requests) might look like this:
 
 **Note:** Pardon my Ruby, I'm rusty with it.
 
-A full Python endpoint example server code (for testing) can be a simple as:
+A full Python endpoint example server code (for testing) can be as simple as:
 
 ::
 
