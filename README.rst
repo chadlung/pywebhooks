@@ -23,8 +23,8 @@ used to store the account, webooks, etc. data. Redis is used by
 `Celery <http://http://www.celeryproject.org//>`__ to handle the calls to the
 webhook endpoints.
 
-**Note:** PyWebhooks has been tested on Ubuntu 14.04 and OS X.
-PyWebhooks has been tested with Python 3.4.x and 3.5.x. Prior Python 3.x versions have not
+**Note:** PyWebhooks has been tested on Ubuntu 16.04 and OS X.
+PyWebhooks has been tested with Python 3.5.x and 3.6.x. Prior Python 3.x versions have not
 been tested and Python 2.x support is not planned.
 
 Why PyWebhooks?
@@ -36,29 +36,24 @@ However, I couldn't find anything that wrapped it into a complete service where 
 run a server to allow for adding new accounts, letting those users create their
 own webhooks and then allow others to listen (subscribe) to those webhooks.
 
+Update - Feb. 9, 2019
+^^^^^^^^^^^^^^^^^^^^^
+
+- Vagrant support is dropped. The feedback I've received is only based on Docker support.
+- I'm planning to swap out the RethinkDB backend with Postgres/MySQL.
+- Also planned is no more static webhook messages - you could have messages sent with custom values.
+- Potentially removing Flask and replacing with Falcon.
+- More features and updates planned but too early to post them here. Its possible these new features
+  and changes will just end up in an entirely new repository.
+
 Quickstart - Docker-Compose
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To use Docker Compose perform the following in the ``pywebhooks\__init.py__`` file:
-
-Comment out the default Vagrant configuration:
-
-::
-
-    # RETHINK_HOST = 'localhost'
-    # CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
-Un-Comment the Docker Compose configuration:
-
-::
-
-    RETHINK_HOST = 'rethinkdb'
-    CELERY_BROKER_URL = 'redis://redis:6379/0'
 
 Make sure you are running Docker version ``1.10+`` and Docker Compose ``1.6+`` or newer. From a command line run the following from the project's ``docker`` folder:
 
 ::
 
+    $ cd docker
     $ docker-compose up
 
 If you can don't run that in daemon mode as you can more easily capture the admin ``secret_key`` and ``api_key`` from the console output.
@@ -74,9 +69,9 @@ Make sure to record those keys.
 Non-Quickstart
 ^^^^^^^^^^^^^^
 
-If you don't use the quick start mentioned above:
+If you did't use the quick start mentioned above:
 
-Once you have Redis and RethinkDB setup you can initialize the database and
+Once you have Redis and RethinkDB setup and running you can initialize the database and
 admin accounts by running the following:
 
 ::
@@ -167,7 +162,7 @@ and GET echo requests) might look like this:
 
 **Note:** Pardon my Ruby, I'm rusty with it.
 
-A full Python 3.4 endpoint example server code (for testing) can be a simple as:
+A full Python endpoint example server code (for testing) can be a simple as:
 
 ::
 
@@ -276,7 +271,15 @@ a complex username to avoid any potential possibility of someone abusing the
 allow for a denial of service on your endpoint. A complex username not shared
 such as ``cRee82jfkjf09ij23`` is better than ``johndoe``. One potential fix
 I will look at is limiting how many ``api_key`` resets can be done in a given
-period (rate limiting).
+period (rate limiting). Also, the term "username" applies to the endpoint possibly
+being a service which is most likely the case so your username may actually be
+something like "myservice-listener-001" (as an example).
+
+If ``127.0.0.1`` is not working below try ``localhost`` or lookup the IP Docker is using.
+Make sure to set that IP address in the ``endpoint`` below.
+
+**Note:** Make sure you are running an endpoint since creating an account will verfiy
+the endpoint. You can use the example code above.
 
 ::
 
@@ -303,7 +306,10 @@ Make note of the ``id``, ``secret_key`` and ``api_key`` (because the ``api_key``
 stored hashed).
 
 The ``secret_key`` will be used to validate the data coming into your endpoint
-is indeed from the PyWebhooks server and not something/someone else.
+is indeed from the PyWebhooks server and not something/someone else. If you are
+following along on a local dev machine make sure to stop your example endpoint server now
+and paste in the new ``secret_key`` value before running the next API call below. Now you 
+can re-start the example endpoint server.
 
 The ``api_key`` will be used for any communication with the PyWebhooks server that
 isn't a publicly accessible call.

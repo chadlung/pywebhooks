@@ -53,3 +53,12 @@ coverage.xml
 docs/_build/
 
 .DS_Store
+
+# virtualenv venv
+.venv/
+venv/
+ENV/
+
+# VSCode
+.vscode/
+settings.json

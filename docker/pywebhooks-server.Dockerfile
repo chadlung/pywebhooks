@@ -1,4 +1,4 @@
-FROM python:3.4
+FROM python:3.6
 
 COPY . /opt/pywebhooks
 WORKDIR /opt/pywebhooks

@@ -18,6 +18,7 @@ def read(relative):
     contents = open(relative, 'r').read()
     return [l for l in contents.split('\n') if l != '']
 
+
 with open('README.rst', 'r') as f:
     readme = f.read()
 
@@ -36,8 +37,8 @@ setup(
     zip_safe=False,
     include_package_data=True,
     classifiers=[
-        'Programming Language :: Python :: 3.4',
-        'Development Status :: 3 - Alpha',
+        'Programming Language :: Python :: 3.6',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
